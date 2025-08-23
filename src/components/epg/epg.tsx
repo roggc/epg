@@ -8,7 +8,7 @@ export default function EPG({ epgData }: { epgData: EPGData }) {
   const channelLogos = epgData.channels.map((channel) => channel.images);
   return (
     <div className="flex-1 overflow-auto">
-      <DateAndHour />
+      <DateAndHour epgData={epgData} />
       {/* <ChannelLogos logos={channelLogos} /> */}
     </div>
   );
