@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useLayoutEffect, useRef, useState } from "react";
 import dayjs from "dayjs";
 import { pixelsPerMinute } from "@/constants";
 import Hour from "./hour";
@@ -16,20 +16,34 @@ interface HoursProps {
 const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
   const channelLogos = epgData.channels.map((channel) => channel.images);
 
-  const [nowPosition, setNowPosition] = useState(0);
+  const [nowPosition, setNowPosition] = useState(-1);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const hasScrolled = useRef(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const update = () => {
       const minutesNow = dayjs().diff(dayjs().startOf("day"), "minutes");
       setNowPosition(minutesNow * pixelsPerMinute);
     };
     update();
-    const id = setInterval(update, 30000); // actualizar cada 30s
+    const id = setInterval(update, 30000);
     return () => clearInterval(id);
   }, []);
 
+  useLayoutEffect(() => {
+    if (scrollRef.current && !hasScrolled.current && nowPosition !== -1) {
+      const container = scrollRef.current;
+      const centerOffset = nowPosition - container.clientWidth / 2;
+      container.scrollLeft = Math.max(centerOffset, 0);
+      hasScrolled.current = true;
+    }
+  }, [nowPosition]);
+
   return (
-    <div className="w-full flex overflow-auto flex-col min-h-0 flex-1">
+    <div
+      className="w-full flex overflow-auto flex-col min-h-0 flex-1"
+      ref={scrollRef}
+    >
       {/* Cabecera de horas */}
       <div
         className="w-full flex items-center flex-row sticky top-0 bg-background z-40"
