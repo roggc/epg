@@ -1,6 +1,6 @@
 "use server";
 
-import EPG from "@/components/epg";
+import EPG from "@/components/epg/epg";
 import type { EPGData } from "@/types/epg";
 import ImageChannelYoutube from "@/assets/youtube-image-channel.png";
 import ImageChannelTV from "@/assets/tv-channel-image.png";

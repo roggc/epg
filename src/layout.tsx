@@ -1,7 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import "./global.css";
+import "@/global.css";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
@@ -31,7 +33,11 @@ export default function Layout({ children }: { children: ReactNode }) {
         <link rel="manifest" href="/site.webmanifest"></link>
         <link href="/styles.css" rel="stylesheet"></link>
       </head>
-      <body>{children}</body>
+      <body className="flex flex-col min-h-0 h-screen">
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
