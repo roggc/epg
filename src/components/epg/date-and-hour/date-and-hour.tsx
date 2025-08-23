@@ -10,7 +10,7 @@ export default function DateAndHour({ epgData }: { epgData: EPGData }) {
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="flex items-center flex-col">
+    <div className="flex items-center flex-col h-full min-h-0 flex-1 overflow-hidden">
       <Days />
       <Hours ref={ref} epgData={epgData} />
     </div>

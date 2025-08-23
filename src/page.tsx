@@ -6,7 +6,7 @@ import { getEPG } from "@/server-functions/get-epg";
 
 export default function Page() {
   return (
-    <div className={`flex-1 flex flex-col overflow-hidden`}>
+    <div className={`flex-1 flex flex-col h-full min-h-0`}>
       <Suspense fallback={<div>Loading EPG screen...</div>}>
         {getEPG()}
       </Suspense>
