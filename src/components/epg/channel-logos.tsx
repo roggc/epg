@@ -4,7 +4,7 @@ import type { EPGImage } from "@/types/epg";
 
 export default function ChannelLogos({ logos }: { logos: EPGImage[] }) {
   return (
-    <div className="flex items-center flex-col sticky left-0 top-0 w-fit">
+    <div className="flex items-center flex-col sticky left-0 top-0 w-fit z-30">
       {logos.map((logo) => (
         <img
           key={logo.id}
