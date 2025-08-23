@@ -17,7 +17,7 @@ export default function Program({
 
   return (
     <div
-      className={`flex items-center flex-col bg-gray-800 text-white h-20 min-h-20 justify-center`}
+      className={`flex items-center flex-col bg-gray-800 text-white h-16 min-h-16 justify-center`}
       style={{ width, minWidth: width }}
     >
       <span className="text-sm">{title}</span>
