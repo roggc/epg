@@ -57,25 +57,13 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
       <div className="relative w-fit">
         {/* Línea de tiempo global */}
         {nowPosition !== -1 && (
-          <>
-            {/* Línea sobre el header (más gruesa) */}
-            <div
-              className="absolute top-0 h-8 bg-red-500 z-50 rounded-full"
-              style={{
-                left: nowPosition - 2, // 4px de grosor / 2
-                width: 4,
-              }}
-            />
-
-            {/* Línea sobre el resto (normal) */}
-            <div
-              className="absolute top-8 bottom-0 bg-red-500 z-50"
-              style={{
-                left: nowPosition - 1, // 2px de grosor / 2
-                width: 2,
-              }}
-            />
-          </>
+          <div
+            className="absolute top-8 bottom-0 bg-red-500 z-40"
+            style={{
+              left: nowPosition - 1,
+              width: 2,
+            }}
+          />
         )}
 
         {/* Cabecera de horas */}
@@ -89,6 +77,17 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
           {Array.from({ length: 24 }, (_, k) => k).map((value) => (
             <Hour key={`hour-${value}`} hour={value} />
           ))}
+
+          {/* Línea gruesa dentro del header (se queda fija al hacer scroll vertical) */}
+          {nowPosition !== -1 && (
+            <div
+              className="absolute top-0 h-8 bg-red-500 z-50 rounded-full"
+              style={{
+                left: nowPosition - 2, // 4px grosor / 2
+                width: 4,
+              }}
+            />
+          )}
         </div>
 
         {/* Bloque de logos + programas */}
