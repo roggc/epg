@@ -19,16 +19,25 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
   const [nowPosition, setNowPosition] = useState(-1);
   const scrollRef = useRef<HTMLDivElement>(null);
   const hasScrolled = useRef(false);
+  const paddingRef = useRef<HTMLDivElement>(null);
+  const [paddingWidth, setPaddingWidth] = useState(0);
+
+  // Medir la anchura del padding dinámicamente
+  useLayoutEffect(() => {
+    if (paddingRef.current) {
+      setPaddingWidth(paddingRef.current.offsetWidth);
+    }
+  }, []);
 
   useLayoutEffect(() => {
     const update = () => {
       const minutesNow = dayjs().diff(dayjs().startOf("day"), "minutes");
-      setNowPosition(minutesNow * pixelsPerMinute + 60);
+      setNowPosition(minutesNow * pixelsPerMinute + paddingWidth);
     };
     update();
     const id = setInterval(update, 30000);
     return () => clearInterval(id);
-  }, []);
+  }, [paddingWidth]);
 
   useLayoutEffect(() => {
     if (scrollRef.current && !hasScrolled.current && nowPosition !== -1) {
@@ -74,7 +83,9 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
           className="w-full flex items-center flex-row sticky top-0 bg-background z-40"
           ref={ref}
         >
-          <Padding />
+          <div ref={paddingRef}>
+            <Padding />
+          </div>
           {Array.from({ length: 24 }, (_, k) => k).map((value) => (
             <Hour key={`hour-${value}`} hour={value} />
           ))}
