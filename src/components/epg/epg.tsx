@@ -1,13 +1,15 @@
 "use client";
 
 import type { EPGData } from "@/types/epg";
-import ChannelLogos from "@/components/epg/channel-logos";
+// import ChannelLogos from "@/components/epg/channel-logos";
+import DateAndHour from "./date-and-hour/date-and-hour";
 
 export default function EPG({ epgData }: { epgData: EPGData }) {
   const channelLogos = epgData.channels.map((channel) => channel.images);
   return (
     <div className="flex-1 overflow-auto">
-      <ChannelLogos logos={channelLogos} />
+      <DateAndHour />
+      {/* <ChannelLogos logos={channelLogos} /> */}
     </div>
   );
 }
