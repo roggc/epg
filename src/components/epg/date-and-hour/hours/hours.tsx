@@ -23,7 +23,7 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
   useLayoutEffect(() => {
     const update = () => {
       const minutesNow = dayjs().diff(dayjs().startOf("day"), "minutes");
-      setNowPosition(minutesNow * pixelsPerMinute);
+      setNowPosition(minutesNow * pixelsPerMinute + 60);
     };
     update();
     const id = setInterval(update, 30000);
