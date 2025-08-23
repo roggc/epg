@@ -44,29 +44,35 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
       className="w-full flex overflow-auto flex-col min-h-0 flex-1"
       ref={scrollRef}
     >
-      {/* Cabecera de horas */}
-      <div
-        className="w-full flex items-center flex-row sticky top-0 bg-background z-40"
-        ref={ref}
-      >
-        <Padding />
-        {Array.from({ length: 24 }, (_, k) => k).map((value) => (
-          <Hour key={`hour-${value}`} hour={value} />
-        ))}
-      </div>
-
-      {/* Bloque de logos + programas */}
-      <div className="w-fit flex items-start relative">
-        <ChannelLogos logos={channelLogos} />
-        <div className="w-full h-full relative">
-          {/* Línea de tiempo */}
+      {/* Wrapper relativo que incluye horas + programas */}
+      <div className="relative w-fit">
+        {/* Línea de tiempo global */}
+        {nowPosition !== -1 && (
           <div
-            className="absolute top-0 bottom-0 w-[2px] bg-red-500 z-20"
+            className="absolute top-0 bottom-0 w-[2px] bg-red-500 z-50"
             style={{ left: nowPosition }}
           />
-          {epgData.channels.map((channel) => (
-            <Programs key={channel.id} programs={channel.schedules} />
+        )}
+
+        {/* Cabecera de horas */}
+        <div
+          className="w-full flex items-center flex-row sticky top-0 bg-background z-40"
+          ref={ref}
+        >
+          <Padding />
+          {Array.from({ length: 24 }, (_, k) => k).map((value) => (
+            <Hour key={`hour-${value}`} hour={value} />
           ))}
+        </div>
+
+        {/* Bloque de logos + programas */}
+        <div className="w-fit flex items-start">
+          <ChannelLogos logos={channelLogos} />
+          <div className="w-full h-full">
+            {epgData.channels.map((channel) => (
+              <Programs key={channel.id} programs={channel.schedules} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
