@@ -16,7 +16,14 @@ export default function Program({
   const width = Math.round(duration * pixelsPerMinute);
 
   const now = dayjs();
-  const isActive = now.isAfter(dayjs(start)) && now.isBefore(dayjs(end));
+  const startMinutes = dayjs(start).hour() * 60 + dayjs(start).minute();
+  const endMinutes = dayjs(end).hour() * 60 + dayjs(end).minute();
+  const nowMinutes = now.hour() * 60 + now.minute();
+
+  // Verificar si la hora actual está entre start y end (solo hora, ignorando el día)
+  const isActive = nowMinutes >= startMinutes && nowMinutes < endMinutes;
+
+  // const isActive = now.isAfter(dayjs(start)) && now.isBefore(dayjs(end));  // This is how it should be if we take into account the actual day
 
   return (
     <div
