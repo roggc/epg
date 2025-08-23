@@ -8,6 +8,7 @@ import Programs from "./programs";
 import ChannelLogos from "@/components/epg/channel-logos";
 import Padding from "./padding";
 import type { EPGData } from "@/types/epg";
+import { createPortal } from "react-dom";
 
 interface HoursProps {
   epgData: EPGData;
@@ -21,6 +22,14 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
   const hasScrolled = useRef(false);
   const paddingRef = useRef<HTMLDivElement>(null);
   const [paddingWidth, setPaddingWidth] = useState(0);
+
+  // Estado para almacenar el contenedor del portal
+  const [portalContainer, setPortalContainer] = useState<Element | null>(null);
+
+  // Montar el contenedor solo en el cliente
+  useLayoutEffect(() => {
+    setPortalContainer(document.getElementById("portal-root"));
+  }, []);
 
   // Medir la anchura del padding dinámicamente
   useLayoutEffect(() => {
@@ -65,6 +74,26 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
             }}
           />
         )}
+
+        {portalContainer &&
+          createPortal(
+            <div className="absolute bottom-8 right-8 z-100">
+              <button
+                className="bg-yellow-700 text-white px-2 py-1 rounded"
+                onClick={() => {
+                  if (scrollRef.current && nowPosition !== -1) {
+                    const container = scrollRef.current;
+                    const centerOffset =
+                      nowPosition - container.clientWidth / 2;
+                    container.scrollLeft = Math.max(centerOffset, 0);
+                  }
+                }}
+              >
+                Now
+              </button>
+            </div>,
+            portalContainer
+          )}
 
         {/* Cabecera de horas */}
         <div
