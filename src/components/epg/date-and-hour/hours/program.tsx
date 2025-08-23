@@ -17,10 +17,10 @@ export default function Program({
 
   return (
     <div
-      className={`flex items-center flex-col bg-gray-800 text-white h-16 min-h-16 justify-center`}
+      className={`flex flex-col bg-gray-800 text-white h-16 min-h-16`}
       style={{ width, minWidth: width }}
     >
-      <span className="text-sm">{title}</span>
+      <span className="text-xs">{title}</span>
       <span className="text-xs text-gray-400">{`${dayjs(start).format(
         "HH:mm"
       )} - ${dayjs(end).format("HH:mm")}`}</span>
