@@ -16,10 +16,10 @@
   "dependencies": {
     "dayjs": "^1.11.13",
     "dinou": "^2.0.3",
-    "jotai-wrapper": "^1.0.3",
     "lucide-react": "^0.541.0",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-enhanced-suspense": "^4.0.3"
   },
   "devDependencies": {
     "@types/react": "^19.1.10",

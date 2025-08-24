@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { pixelsPerMinute } from "@/constants";
 import Hour from "./hour";
@@ -9,7 +9,6 @@ import ChannelLogos from "@/components/epg/channel-logos";
 import Padding from "./padding";
 import type { EPGData } from "@/types/epg";
 import { createPortal } from "react-dom";
-import { useSafeEffect } from "@/hooks/use-safe-effect";
 
 type HoursProps = {
   epgData: EPGData;
@@ -28,18 +27,18 @@ const Hours = ({ epgData }: HoursProps) => {
   const [portalContainer, setPortalContainer] = useState<Element | null>(null);
 
   // Montar el contenedor solo en el cliente
-  useSafeEffect(() => {
+  useEffect(() => {
     setPortalContainer(document.getElementById("portal-root"));
   }, []);
 
   // Medir la anchura del padding dinámicamente
-  useSafeEffect(() => {
+  useEffect(() => {
     if (paddingRef.current) {
       setPaddingWidth(paddingRef.current.offsetWidth);
     }
   }, []);
 
-  useSafeEffect(() => {
+  useEffect(() => {
     const update = () => {
       const minutesNow = dayjs().diff(dayjs().startOf("day"), "minutes");
       setNowPosition(minutesNow * pixelsPerMinute + paddingWidth);
@@ -49,7 +48,7 @@ const Hours = ({ epgData }: HoursProps) => {
     return () => clearInterval(id);
   }, [paddingWidth]);
 
-  useSafeEffect(() => {
+  useEffect(() => {
     if (scrollRef.current && !hasScrolled.current && nowPosition !== -1) {
       const container = scrollRef.current;
       const centerOffset = nowPosition - container.clientWidth / 2;
