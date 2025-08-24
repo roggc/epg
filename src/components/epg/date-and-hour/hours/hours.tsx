@@ -23,15 +23,12 @@ const Hours = ({ epgData }: HoursProps) => {
   const paddingRef = useRef<HTMLDivElement>(null);
   const [paddingWidth, setPaddingWidth] = useState(0);
 
-  // Estado para almacenar el contenedor del portal
   const [portalContainer, setPortalContainer] = useState<Element | null>(null);
 
-  // Montar el contenedor solo en el cliente
   useEffect(() => {
     setPortalContainer(document.getElementById("portal-root"));
   }, []);
 
-  // Medir la anchura del padding dinámicamente
   useEffect(() => {
     if (paddingRef.current) {
       setPaddingWidth(paddingRef.current.offsetWidth);
@@ -62,9 +59,7 @@ const Hours = ({ epgData }: HoursProps) => {
       className="w-full flex overflow-auto flex-col min-h-0 flex-1"
       ref={scrollRef}
     >
-      {/* Wrapper relativo que incluye horas + programas */}
       <div className="relative w-fit">
-        {/* Línea de tiempo global */}
         {nowPosition !== -1 && (
           <div
             className="absolute top-8 bottom-0 bg-red-500 z-40"
@@ -95,7 +90,6 @@ const Hours = ({ epgData }: HoursProps) => {
             portalContainer
           )}
 
-        {/* Cabecera de horas */}
         <div className="w-full flex items-center flex-row sticky top-0 bg-background z-40">
           <div ref={paddingRef}>
             <Padding />
@@ -104,19 +98,17 @@ const Hours = ({ epgData }: HoursProps) => {
             <Hour key={`hour-${value}`} hour={value} />
           ))}
 
-          {/* Línea gruesa dentro del header (se queda fija al hacer scroll vertical) */}
           {nowPosition !== -1 && (
             <div
               className="absolute top-0 h-8 bg-red-500 z-50 rounded-full"
               style={{
-                left: nowPosition - 2, // 4px grosor / 2
+                left: nowPosition - 2,
                 width: 4,
               }}
             />
           )}
         </div>
 
-        {/* Bloque de logos + programas */}
         <div className="w-fit flex items-start">
           <ChannelLogos logos={channelLogos} />
           <div className="w-full h-full">
