@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import dayjs from "dayjs";
 import { pixelsPerMinute } from "@/constants";
 import Hour from "./hour";
@@ -10,11 +10,11 @@ import Padding from "./padding";
 import type { EPGData } from "@/types/epg";
 import { createPortal } from "react-dom";
 
-interface HoursProps {
+type HoursProps = {
   epgData: EPGData;
-}
+};
 
-const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
+const Hours = ({ epgData }: HoursProps) => {
   const channelLogos = epgData.channels.map((channel) => channel.images);
 
   const [nowPosition, setNowPosition] = useState(-1);
@@ -96,10 +96,7 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
           )}
 
         {/* Cabecera de horas */}
-        <div
-          className="w-full flex items-center flex-row sticky top-0 bg-background z-40"
-          ref={ref}
-        >
+        <div className="w-full flex items-center flex-row sticky top-0 bg-background z-40">
           <div ref={paddingRef}>
             <Padding />
           </div>
@@ -131,6 +128,6 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
       </div>
     </div>
   );
-});
+};
 
 export default Hours;
