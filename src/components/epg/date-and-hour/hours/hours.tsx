@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useLayoutEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import dayjs from "dayjs";
 import { pixelsPerMinute } from "@/constants";
 import Hour from "./hour";
@@ -10,11 +10,11 @@ import Padding from "./padding";
 import type { EPGData } from "@/types/epg";
 import { createPortal } from "react-dom";
 
-interface HoursProps {
+type HoursProps = {
   epgData: EPGData;
-}
+};
 
-const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
+const Hours = ({ epgData }: HoursProps) => {
   const channelLogos = epgData.channels.map((channel) => channel.images);
 
   const [nowPosition, setNowPosition] = useState(-1);
@@ -27,18 +27,18 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
   const [portalContainer, setPortalContainer] = useState<Element | null>(null);
 
   // Montar el contenedor solo en el cliente
-  useLayoutEffect(() => {
+  useEffect(() => {
     setPortalContainer(document.getElementById("portal-root"));
   }, []);
 
   // Medir la anchura del padding dinámicamente
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (paddingRef.current) {
       setPaddingWidth(paddingRef.current.offsetWidth);
     }
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const update = () => {
       const minutesNow = dayjs().diff(dayjs().startOf("day"), "minutes");
       setNowPosition(minutesNow * pixelsPerMinute + paddingWidth);
@@ -48,7 +48,7 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
     return () => clearInterval(id);
   }, [paddingWidth]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (scrollRef.current && !hasScrolled.current && nowPosition !== -1) {
       const container = scrollRef.current;
       const centerOffset = nowPosition - container.clientWidth / 2;
@@ -96,10 +96,7 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
           )}
 
         {/* Cabecera de horas */}
-        <div
-          className="w-full flex items-center flex-row sticky top-0 bg-background z-40"
-          ref={ref}
-        >
+        <div className="w-full flex items-center flex-row sticky top-0 bg-background z-40">
           <div ref={paddingRef}>
             <Padding />
           </div>
@@ -131,6 +128,6 @@ const Hours = forwardRef<HTMLDivElement, HoursProps>(({ epgData }, ref) => {
       </div>
     </div>
   );
-});
+};
 
 export default Hours;
