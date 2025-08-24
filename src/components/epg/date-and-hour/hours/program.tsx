@@ -20,7 +20,7 @@ export default function Program({
   const endMinutes = dayjs(end).hour() * 60 + dayjs(end).minute();
   const nowMinutes = now.hour() * 60 + now.minute();
 
-  // Verificar si la hora actual está entre start y end (solo hora, ignorando el día)
+  // ignore day
   const isActive = nowMinutes >= startMinutes && nowMinutes < endMinutes;
 
   // const isActive = now.isAfter(dayjs(start)) && now.isBefore(dayjs(end));  // This is how it should be if we take into account the actual day
